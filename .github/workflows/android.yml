@@ -12,10 +12,18 @@ jobs:
         with:
           ruby-version: '3.3' 
           bundler-cache: true
-      - name: install firebase tool
+      - name: Install Bundler
+        run: gem install bundler     
+      
+      - name: Install gems
+        run: bundle install
+      
+      - name: Set up Firebase CLI
         run: |
-          yarn global add firebase-tools
-          echo "::add-path::$(yarn global bin)"  
+          curl -sL https://firebase.tools | bash  
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '17'
 
       - name: Install Java
         uses: actions/setup-java@v2
