@@ -54,11 +54,11 @@ jobs:
           name: app
           path: ./android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 3
-
-      - name: setup fastlane
-        run: bundle install
-      - name: distribute to firebase
-        run: bundle exec fastlane android distribute
+          
+      - name: Run Fastlane apk
+        working-directory: ./android
+        run: |
+          bundle exec fastlane android distribute --verbose 
         env:
+          APP_ID: ${{ secrets.APP_ID }}
           FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
-          FIREBASE_APP_ID: ${{ secrets.APP_ID }}
