@@ -28,12 +28,11 @@ jobs:
 
       - name: Run Yarn Install
         run: |
-             cd ./packages/app-mobile/
              npm i -g corepack
              yarn install             
       - name: Build application
         run: |
-             cd /android
+             cd ./android
              ./gradlew assembleDebug             
       - name: Upload application
         uses: actions/upload-artifact@v2
