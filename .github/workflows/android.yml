@@ -2,8 +2,6 @@ name: "Build Android app"
 
 on:
   workflow_dispatch:
-    # can add push and pull_request here 
-
 jobs:
   build:
     runs-on: ubuntu-latest
