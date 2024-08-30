@@ -1,0 +1,28 @@
+default_platform(:android)
+
+desc 'Android: Increment versionCode and set versionName to package.json version.'
+private_lane :inc_ver_and do
+    package = load_json(json_path: "./package.json") // load package.json for read the new version applied
+
+    increment_version_code( // apply increment version code
+        gradle_file_path: "./android/app/build.gradle",
+    )
+
+    increment_version_name( // apply increment version name
+
+        gradle_file_path: "./android/app/build.gradle",
+        version_name: package['version']
+    )
+end
+platform :android do
+  desc "Lane for distributing app using Firebase App Distributions"
+  lane :distribute do
+    firebase_app_distribution(
+      app: ENV["APP_ID"],
+      android_artifact_type: "APK",
+      apk_path: "build/app/outputs/flutter-apk/app-debug.apk",
+      debug: true,
+      firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"]
+    )
+  end
+end
