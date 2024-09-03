@@ -1,7 +1,32 @@
 default_platform(:android)
 
-
 platform :android do
+
+
+desc "Increment version code"
+ lane :increment_vc do
+ increment_version_code(
+       gradle_file_path: "./app/build.gradle",
+
+ )
+
+desc "Increment version code"
+ lane :increment_vc do
+ increment_version_code(
+       gradle_file_path: "./app/build.gradle",
+
+ )
+
+desc "Build"
+lane :build do
+  gradle(
+     task: "assemble",
+     flavor: "demo",
+     build_type: "Release"
+   )
+end
+
+
   desc "Lane for distributing app using Firebase App Distributions"
   lane :distribute do
     firebase_app_distribution(
