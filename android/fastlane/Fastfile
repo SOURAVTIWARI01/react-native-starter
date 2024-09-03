@@ -14,7 +14,7 @@ desc "Build"
 lane :build do
   gradle(
      task: "assemble",
-     build_type: "Debug"
+     build_type: "debug"
    )
 end
 
