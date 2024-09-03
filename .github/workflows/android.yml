@@ -53,7 +53,6 @@ jobs:
       - name: Run Fastlane apk
         working-directory: ./android
         run: |
-          chmod 777 -R /var/lib/gems/
           bundle exec fastlane add_plugin get_version_name
           bundle exec fastlane add_plugin increment_version_name
           bundle exec fastlane add_plugin increment_version_code
