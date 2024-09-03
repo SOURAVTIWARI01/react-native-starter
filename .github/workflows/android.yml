@@ -56,6 +56,7 @@ jobs:
           bundle exec fastlane add_plugin get_version_name
           bundle exec fastlane add_plugin increment_version_name
           bundle exec fastlane add_plugin increment_version_code
+          bundle exec fastlane android increment_vc --verbose 
           bundle exec fastlane android build --verbose
           bundle exec fastlane android distribute --verbose 
         env:
