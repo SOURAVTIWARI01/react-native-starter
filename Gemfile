@@ -3,7 +3,7 @@ gem "fastlane"
 gem "fastlane-plugin-firebase_app_distribution"
 gem "fastlane-plugin-get_version_name"
 gem "fastlane-plugin-increment_version_name"
-gem "fastlane-plugin-increment_version_codee"
+gem "fastlane-plugin-increment_version_code"
 
 # You may use http://rbenv.org/ or https://rvm.io/ to install and use this version
 ruby ">= 2.6.10"
