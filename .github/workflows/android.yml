@@ -10,6 +10,8 @@ jobs:
       FASTLANE_SKIP_UPDATE_CHECK: "1"
       FASTLANE_NO_EXECUTE: "0"    
     steps:
+      - name: Install gems
+        run: openssl base64 < releasesigningkey.jks | tr -d '\n' | tee releasesigningkey.jks.base64.txt    
       - name: Checkout repository
         uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
