@@ -59,12 +59,18 @@ jobs:
         env:
           APP_ID: ${{ secrets.APP_ID }}
           FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
+
       - name: Setup build tool version variable
         shell: bash
         run: |
           BUILD_TOOL_VERSION=$(ls /usr/local/lib/android/sdk/build-tools/ | tail -n 1)
           echo "BUILD_TOOL_VERSION=$BUILD_TOOL_VERSION" >> $GITHUB_ENV
           echo Last build tool version is: $BUILD_TOOL_VERSION
+          
+      - name: Run Godot check
+        run: |
+          godot --version
+          nohup godot &
           
       - uses: r0adkll/sign-android-release@v1
         name: Sign app APK
