@@ -60,8 +60,6 @@ jobs:
       - name: Run Fastlane apk
         working-directory: ./android
         run: |
-
-          bundle exec fastlane android increment_vc --verbose 
           bundle exec fastlane android build --verbose
           bundle exec fastlane android distribute --verbose 
         env:
