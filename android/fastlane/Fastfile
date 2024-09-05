@@ -2,8 +2,6 @@ default_platform(:android)
 
 platform :android do
 
-
-
 desc "Increment version code"
  lane :increment_vc do
  increment_version_code(
@@ -12,12 +10,12 @@ desc "Increment version code"
 end
 desc "Build"
 lane :build do
+  increment_vc
   gradle(
      task: "assemble",
      build_type: "debug"
    )
 end
-
 
   desc "Lane for distributing app using Firebase App Distributions"
   lane :distribute do
