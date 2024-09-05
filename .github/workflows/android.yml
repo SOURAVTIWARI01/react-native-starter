@@ -24,7 +24,6 @@ jobs:
         run: |
               openssl base64 < releasekey.jks | tr -d '\n' | tee releasekey.jks.base64.txt   
               "SIGNING_KEY=$(cat ./releasekey.jks.base64.txt)" >> $GITHUB_ENV
-              echo $SIGNING_KEY
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3' 
