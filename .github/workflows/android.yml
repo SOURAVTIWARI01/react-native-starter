@@ -13,7 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Generate keystore
-        working-directory: ./android
         run: |
           echo "Generating keystore..."
           # Define variables for keystore
