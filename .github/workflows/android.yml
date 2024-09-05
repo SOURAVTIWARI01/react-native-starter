@@ -52,10 +52,10 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Run Yarn Install
-        run: |
-             npm i -g corepack
-             yarn install             
+      # - name: Run Yarn Install
+      #   run: |
+      #        npm i -g corepack
+      #        yarn install             
                      
       - name: Run Fastlane apk
         working-directory: ./android
