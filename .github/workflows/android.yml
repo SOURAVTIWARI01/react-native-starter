@@ -9,7 +9,9 @@ jobs:
       FASTLANE_DISABLE_COLORS: "1"
       FASTLANE_SKIP_UPDATE_CHECK: "1"
       FASTLANE_NO_EXECUTE: "0"    
-    steps:
+    steps:      
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Generate keystore
         working-directory: ./android
         run: |
@@ -22,10 +24,7 @@ jobs:
       - name: Openssl command
         run: |
               openssl base64 < releasekey.jks | tr -d '\n' | tee releasekey.jks.base64.txt  
-              cat releasekey.jks.base64.txt
-      
-      - name: Checkout repository
-        uses: actions/checkout@v2
+              cat releasekey.jks.base64.txt        
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3' 
