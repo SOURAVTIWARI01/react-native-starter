@@ -64,6 +64,20 @@ def enableProguardInReleaseBuilds = false
  * this variant is about 6MiB larger per architecture than default.
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
+// In your android/app/build.gradle
+
+//added by sourav
+task updateVersionCode {
+    doLast {
+        def versionCode = project.hasProperty("VERSION_CODE") ? project.VERSION_CODE.toInteger() : null
+        if (versionCode != null) {
+            android.defaultConfig.versionCode = versionCode
+            println "Version code updated to ${versionCode}"
+        } else {
+            println "No version code provided to update."
+        }
+    }
+}
 
 
 // added by sourav 
