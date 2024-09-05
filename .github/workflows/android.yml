@@ -37,10 +37,6 @@ jobs:
       - name: Set up Firebase CLI
         run: |
           curl -sL https://firebase.tools | bash  
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '17'
-
       - name: Install Java
         uses: actions/setup-java@v2
         with:
