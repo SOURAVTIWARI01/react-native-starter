@@ -17,25 +17,36 @@ lane :custom_increment_vc do
   puts "Updated version code to #{new_version_code}"
 end
 
-desc "Firebase custom increment version code"
-lane :bump_version do
-  # Get the latest release version from Firebase App Distribution
-  latest_release = firebase_app_distribution_get_latest_release(
-    app: ENV["APP_ID"],
-    firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"] # Ensure you provide the correct token
-  )
-  
-  # Increment the build number based on the latest release
-  new_build_number = latest_release[:buildVersion].to_i + 1
-  
-  # Update the build number in your project
-  increment_build_number(
-    build_number: new_build_number
-  )
 
-  # Optionally, you might want to print out or verify the new build number
-  puts "New build number is #{new_build_number}"
+  desc "Increment version code based on latest release from Firebase"
+  lane :bump_version do
+    # Fetch the latest release version from Firebase
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: ENV["APP_ID"],   # Your Firebase App ID
+      firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"] # Your Firebase CLI token
+    )
+    
+    # Increment the version code based on the latest release version
+    new_version_code = latest_release[:buildVersion].to_i + 1
+    
+    # Update the version code in the build.gradle file
+    gradle(
+      task: "incrementVersionCode",
+      build_type: "debug",
+      properties: {
+        "versionCode" => new_version_code
+      }
+    )
+    
+    # Optional: Print the new version code
+    puts "New version code is #{new_version_code}"
 
+    # Optionally, you might want to build the app (e.g., assembleDebug or assembleRelease)
+    # Uncomment and adjust if needed
+    # gradle(
+    #   task: "assembleDebug"
+    # )
+  end
 end
 
 
