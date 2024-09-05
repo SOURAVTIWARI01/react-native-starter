@@ -23,7 +23,7 @@ jobs:
       - name: Openssl command
         run: |
               openssl base64 < releasekey.jks | tr -d '\n' | tee releasekey.jks.base64.txt   
-              "SIGNING_KEY=$(cat ./releasekey.jks.base64.txt)" >> $GITHUB_ENV
+              
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3' 
@@ -79,7 +79,7 @@ jobs:
         name: Sign app APK
         with:
           releaseDirectory: ./android/app/build/outputs/apk/debug
-          signingKeyBase64: $SIGNING_KEY
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }} 
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}      
