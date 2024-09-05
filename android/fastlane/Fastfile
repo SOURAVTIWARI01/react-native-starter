@@ -25,27 +25,11 @@ end
       app: ENV["APP_ID"],   # Your Firebase App ID
       firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"] # Your Firebase CLI token
     )
-    
     # Increment the version code based on the latest release version
+    gradle_file = "app/build.gradle"
     new_version_code = latest_release[:buildVersion].to_i + 1
-    
-    # Update the version code in the build.gradle file
-    gradle(
-      task: "incrementVersionCode",
-      build_type: "debug",
-      properties: {
-        "versionCode" => new_version_code
-      }
-    )
-    
-    # Optional: Print the new version code
-    puts "New version code is #{new_version_code}"
-
-    # Optionally, you might want to build the app (e.g., assembleDebug or assembleRelease)
-    # Uncomment and adjust if needed
-    # gradle(
-    #   task: "assembleDebug"
-    # )
+    sh "sed -i 's/versionCode #{version_code}/versionCode #{new_version_code}/' #{gradle_file}"
+    puts "Updated version code to #{new_version_code}"
   end
 
 
