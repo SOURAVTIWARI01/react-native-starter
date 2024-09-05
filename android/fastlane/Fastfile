@@ -10,7 +10,7 @@ desc "Increment version code"
 end
 desc "Custom increment version code"
 lane :custom_increment_vc do
-  gradle_file = "app/build.gradle"
+  gradle_file = "./app/build.gradle"
   version_code = `grep versionCode #{gradle_file} | awk '{print $2}'`.to_i
   new_version_code = version_code + 1
   sh "sed -i 's/versionCode #{version_code}/versionCode #{new_version_code}/' #{gradle_file}"
@@ -26,7 +26,7 @@ end
       firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"] # Your Firebase CLI token
     )
     # Increment the version code based on the latest release version
-    gradle_file = "app/build.gradle"
+    gradle_file = "./app/build.gradle"
     version_code = `grep versionCode #{gradle_file} | awk '{print $2}'`.to_i
     new_version_code = latest_release[:buildVersion].to_i + 1
     sh "sed -i 's/versionCode #{version_code}/versionCode #{new_version_code}/' #{gradle_file}"
