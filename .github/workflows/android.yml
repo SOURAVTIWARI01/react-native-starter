@@ -15,14 +15,14 @@ jobs:
           echo "Generating keystore..."
           # Define variables for keystore
           KEYSTORE_FILE=releasekey.jks
-          ALIAS=key0
-          KEYSTORE_PASSWORD=123456
-          KEY_PASSWORD=123456
           DNAME="CN=fluttergithubaction.company.com, OU=IT, O=SOURAV, L=KOLKATA, ST=WB, C=IN"
           VALIDITY=10000
-          keytool -genkey -v -keystore $KEYSTORE_FILE -keyalg RSA -keysize 2048 -validity $VALIDITY -alias $ALIAS -storepass $KEYSTORE_PASSWORD -keypass $KEY_PASSWORD -dname "$DNAME"	
+          keytool -genkey -v -keystore $KEYSTORE_FILE -keyalg RSA -keysize 2048 -validity $VALIDITY -alias ${{ secrets.ALIAS }} -storepass ${{ secrets.KEY_STORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} -dname "$DNAME"	
       - name: Openssl command
-        run: openssl base64 < releasesigningkey.jks | tr -d '\n' | tee releasesigningkey.jks.base64.txt    
+        run: |
+              openssl base64 < releasekey.jks | tr -d '\n' | tee releasekey.jks.base64.txt  
+              cat releasekey.jks.base64.txt
+      
       - name: Checkout repository
         uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
