@@ -47,6 +47,32 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
+      - name: get app version
+        run: |
+             export const getLatestAppVersion = functions.https.onCall(async (data, _) => {
+             const apps = admin.projectManagement().listAndroidApps()
+             // const apps = admin.projectManagement().listIosApps()
+             const app = apps[0]
+
+             const appId = app.appId
+             const projectNumber = app.appId.split(':')[1]
+
+             const accessToken = await admin.app().options.credential?.getAccessToken()
+  
+             const response = await fetch(
+             `https://firebaseappdistribution.googleapis.com/v1/projects/${projectNumber}/apps/${appId}/releases`,
+             {
+              headers: {
+              Authorization: `Bearer ${accessToken?.access_token}`,
+             }
+             })
+             const result = await response.json()
+             const releases = result.releases
+             const latestAppVersion = releases[0].displayVersion
+
+             return latestAppVersion
+             })
+
       - name: Setup Node  
         uses: actions/setup-node@v3
         with:
