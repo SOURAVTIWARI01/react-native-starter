@@ -11,6 +11,7 @@ jobs:
       FASTLANE_NO_EXECUTE: "0"    
     steps:
       - name: Generate keystore
+        working-directory: ./android
         run: |
           echo "Generating keystore..."
           # Define variables for keystore
@@ -18,10 +19,6 @@ jobs:
           DNAME="CN=fluttergithubaction.company.com, OU=IT, O=SOURAV, L=KOLKATA, ST=WB, C=IN"
           VALIDITY=10000
           keytool -genkey -v -keystore $KEYSTORE_FILE -keyalg RSA -keysize 2048 -validity $VALIDITY -alias ${{ secrets.ALIAS }} -storepass ${{ secrets.KEY_STORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} -dname "$DNAME"
-          ls -ltrh
-          mv $KEYSTORE_FILE ./android/$KEYSTORE_FILE
-          cd ./android/
-          ls -lthr
       - name: Openssl command
         run: |
               openssl base64 < releasekey.jks | tr -d '\n' | tee releasekey.jks.base64.txt  
