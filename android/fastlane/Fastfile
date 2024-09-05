@@ -8,9 +8,17 @@ desc "Increment version code"
        gradle_file_path: "./app/build.gradle",
  )
 end
+desc "Custom increment version code"
+lane :custom_increment_vc do
+  gradle_file = "app/build.gradle"
+  version_code = `grep versionCode #{gradle_file} | awk '{print $2}'`.to_i
+  new_version_code = ${{ github.run_number }}
+  sh "sed -i 's/versionCode #{version_code}/versionCode #{new_version_code}/' #{gradle_file}"
+  puts "Updated version code to #{new_version_code}"
+end
 desc "Build"
 lane :build do
-  increment_vc
+  custom_increment_vc
   gradle(
      task: "assemble",
      build_type: "debug"
