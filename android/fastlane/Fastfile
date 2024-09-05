@@ -16,15 +16,28 @@ lane :custom_increment_vc do
   sh "sed -i 's/versionCode #{version_code}/versionCode #{new_version_code}/' #{gradle_file}"
   puts "Updated version code to #{new_version_code}"
 end
-desc "firebase Custom increment version code"
+
+desc "Firebase custom increment version code"
 lane :bump_version do
+  # Get the latest release version from Firebase App Distribution
   latest_release = firebase_app_distribution_get_latest_release(
-    app: ENV["APP_ID"]
+    app: ENV["APP_ID"],
+    firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"] # Ensure you provide the correct token
   )
-  increment_build_number({ build_number: latest_release[:buildVersion].to_i + 1 })
-  debug: true,
-  firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"]
+  
+  # Increment the build number based on the latest release
+  new_build_number = latest_release[:buildVersion].to_i + 1
+  
+  # Update the build number in your project
+  increment_build_number(
+    build_number: new_build_number
+  )
+
+  # Optionally, you might want to print out or verify the new build number
+  puts "New build number is #{new_build_number}"
+
 end
+
 
 desc "Build"
 lane :build do
