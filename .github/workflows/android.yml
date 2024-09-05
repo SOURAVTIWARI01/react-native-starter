@@ -22,8 +22,9 @@ jobs:
           keytool -genkey -v -keystore $KEYSTORE_FILE -keyalg RSA -keysize 2048 -validity $VALIDITY -alias ${{ secrets.ALIAS }} -storepass ${{ secrets.KEY_STORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} -dname "$DNAME"
       - name: Openssl command
         run: |
-              openssl base64 < releasekey.jks | tr -d '\n' | tee releasekey.jks.base64.txt  
-              cat releasekey.jks.base64.txt        
+              openssl base64 < releasekey.jks | tr -d '\n' | tee releasekey.jks.base64.txt   
+              "SIGNING_KEY=$(cat ./releasekey.jks.base64.txt)" >> $GITHUB_ENV
+              echo $SIGNING_KEY
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3' 
@@ -79,7 +80,7 @@ jobs:
         name: Sign app APK
         with:
           releaseDirectory: ./android/app/build/outputs/apk/debug
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          signingKeyBase64: $SIGNING_KEY
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}      
